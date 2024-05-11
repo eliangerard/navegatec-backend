@@ -1,0 +1,27 @@
+{
+  "name": "navegatec-backend",
+  "version": "1.0.0",
+  "description": "NavegaTec backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eliangerard/navegatec-backend.git"
+  },
+  "author": "NavegaTeam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eliangerard/navegatec-backend/issues"
+  },
+  "homepage": "https://github.com/eliangerard/navegatec-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.2",
+    "nodemon": "^3.1.0"
+  }
+}
