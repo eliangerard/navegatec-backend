@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const connection = require("./config/database");
 const events = require("./src/routes/events");
+const auth = require("./src/routes/auth");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json({
 app.use(cors());
 
 app.use('/events', events);
+app.use('/auth', auth);
 
 connection.on("error", console.error.bind(console, "connection error:"));
 connection.once("open", () => {
