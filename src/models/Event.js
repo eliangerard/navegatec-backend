@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
+    active: {
+        type: Boolean,
+        default: false
+    },
     title: {
         type: String,
         required: true
@@ -11,11 +15,9 @@ const eventSchema = new mongoose.Schema({
     },
     button: {
         type: String,
-        required: true
     },
     link: {
         type: String,
-        required: true
     },
     anchor: {
         type: [Number],
