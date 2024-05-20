@@ -16,13 +16,13 @@ function getKey(header, callback) {
 
 const verifySession = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    console.log("Token",token);
+    console.log("Token", token);
     jwt.verify(token, getKey, { algorithms: ['RS256'] }, (err, decoded) => {
 
 
         console.log(err, decoded);
         if (err) {
-            res.status(401).send('Token inválido');
+            res.status(401).json({ message: 'Token inválido' });
         } else {
             req.decoded = decoded;
             next();
