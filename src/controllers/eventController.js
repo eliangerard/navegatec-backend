@@ -51,9 +51,9 @@ const getEventById = async (req, res) => {
 }
 
 const getEventsByBuilding = async (req, res) => {
-    const { building } = req.params;
+    const { id } = req.params;
 
-    const result = await Event.find();
+    const result = await Event.find({ active: true, "where.id": parseInt(id) });
     res.json(result);
 }
 

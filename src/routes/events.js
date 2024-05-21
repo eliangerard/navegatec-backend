@@ -7,7 +7,7 @@ const events = express.Router();
 events.get('/', getActiveEvents);
 events.get('/all', verifySession, getAllEvents);
 events.get('/:id', getEventById);
-events.get('/building/:building', getEventsByBuilding);
+events.get('/building/:id', getEventsByBuilding);
 
 events.post('/', verifySession, addEvent);
 
