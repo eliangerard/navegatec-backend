@@ -25,10 +25,10 @@ jobs:
             cd /home/${{secrets.SSH_USERNAME}}/navegatec-backend && git pull
 
             # Detener el contenedor (opcional, si es necesario)
-            docker-compose down
+            docker-compose down || docker compose down
 
             # Reconstruir la imagen
-            docker-compose build --no-cache
+            docker-compose build --no-cache || docker compose build --no-cache
 
             # Iniciar los contenedores
-            docker-compose up -d 
+            docker-compose up -d || docker compose up -d
