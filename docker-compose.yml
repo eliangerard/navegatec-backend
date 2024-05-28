@@ -1,0 +1,15 @@
+version: '3'
+services:
+  app:
+    build: .  # Construir la imagen a partir del Dockerfile
+    ports:
+      - "3000:3000"  # Mapear el puerto del contenedor al host
+    depends_on:
+      - mongo  # Esperar a que MongoDB esté listo
+
+  mongo:
+    image: mongo  # Usar la imagen oficial de MongoDB
+    ports:
+      - "27017:27017"  # Mapear el puerto de MongoDB
+    volumes:
+      - ./data/db:/data/db  # Persistir los datos de MongoDB en el host
