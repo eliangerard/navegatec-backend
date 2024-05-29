@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const allowedUserSchema = new mongoose.Schema({
     email : {
         type: String,
-        required: true
+        required: true,
+        lowercase: true,
+        trim: true,
     },
 });
 
