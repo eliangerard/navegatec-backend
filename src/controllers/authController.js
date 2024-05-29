@@ -1,6 +1,7 @@
 require('dotenv').config();
 const qs = require('querystring');
 const AllowedUser = require('../models/AllowedUser');
+const jwt = require('jsonwebtoken');
 
 const getToken = async (req, res) => {
     const { code, redirectUri } = req.query;
@@ -27,6 +28,16 @@ const getToken = async (req, res) => {
 
     const data = await response.json();
     console.log(data);
+
+    const { access_token, refresh_token } = data;
+
+    const decodedToken = jwt.decode(access_token);
+    const allowedUser = await AllowedUser.findOne({ email: decodedToken.upn.toLowerCase() });
+    console.log(decodedToken, allowedUser);
+
+    if (!allowedUser) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
 
     res.json(data);
 };
@@ -56,6 +67,16 @@ const refresh = async (req, res) => {
     });
 
     const data = await response.json();
+
+    const { access_token, refresh_token } = data;
+    const decodedToken = jwt.decode(access_token);
+
+    console.log("Refresh", data);
+    const allowedUser = await AllowedUser.findOne({ email: decodedToken.upn.toLowerCase() });
+
+    if (!allowedUser) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
 
     res.json(data);
 }
