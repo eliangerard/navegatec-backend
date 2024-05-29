@@ -15,7 +15,7 @@ function getKey(header, callback) {
     });
 }
 
-const verifySession = (req, res, next) => {
+const verifySession = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         if (!token) {
@@ -26,7 +26,7 @@ const verifySession = (req, res, next) => {
                 res.status(401).json({ message: 'Token inválido' });
             } else {
                 if (!decoded.upn) return res.status(401).json({ message: 'Token inválido' });
-                const user = await AllowedUser.findOne({ email: decoded.upn });
+                const user = await AllowedUser.findOne({ email: decoded.upn.toLowerCase() });
                 console.log(user);
                 if (!user) return res.status(401).json({ message: 'Usuario no autorizado' });
                 req.decoded = decoded;
