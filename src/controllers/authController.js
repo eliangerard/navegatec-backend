@@ -1,5 +1,6 @@
 require('dotenv').config();
 const qs = require('querystring');
+const AllowedUser = require('../models/AllowedUser');
 
 const getToken = async (req, res) => {
     const { code, redirectUri } = req.query;
@@ -23,7 +24,7 @@ const getToken = async (req, res) => {
         },
         body: qs.stringify(params)
     });
-    
+
     const data = await response.json();
     console.log(data);
 
@@ -63,8 +64,26 @@ const verify = (req, res) => {
     res.json({ message: 'Token is valid' });
 }
 
+const addAllowedUser = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const existingUser = await AllowedUser.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        const allowedUser = new AllowedUser({ email });
+        await allowedUser.save();
+        res.status(201).json({ message: 'User added' });
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     getToken,
     refresh,
     verify,
+    addAllowedUser,
 };
