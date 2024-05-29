@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
+const AllowedUser = require('../models/AllowedUser');
 
 const client = jwksClient({
     jwksUri: 'https://login.microsoftonline.com/common/discovery/keys'
@@ -20,10 +21,14 @@ const verifySession = (req, res, next) => {
         if (!token) {
             res.status(401).json({ message: 'Token not found' });
         }
-        jwt.verify(token, getKey, { algorithms: ['RS256'] }, (err, decoded) => {
+        jwt.verify(token, getKey, { algorithms: ['RS256'] }, async (err, decoded) => {
             if (err) {
                 res.status(401).json({ message: 'Token inválido' });
             } else {
+                if (!decoded.upn) return res.status(401).json({ message: 'Token inválido' });
+                const user = await AllowedUser.findOne({ email: decoded.upn });
+                console.log(user);
+                if (!user) return res.status(401).json({ message: 'Usuario no autorizado' });
                 req.decoded = decoded;
                 next();
             }
