@@ -7,10 +7,8 @@ const client = jwksClient({
 });
 
 function getKey(header, callback) {
-    console.log(header);
     client.getSigningKey(header.kid, function (err, key) {
         const signingKey = key.getPublicKey();
-        console.log(err, key, key.alg, "Signed: " + signingKey);
         callback(null, signingKey);
     });
 }
@@ -27,7 +25,6 @@ const verifySession = async (req, res, next) => {
             } else {
                 if (!decoded.upn) return res.status(401).json({ message: 'Token inválido' });
                 const user = await AllowedUser.findOne({ email: decoded.upn.toLowerCase() });
-                console.log(user);
                 if (!user) return res.status(401).json({ message: 'Usuario no autorizado' });
                 req.decoded = decoded;
                 next();
