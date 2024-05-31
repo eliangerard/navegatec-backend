@@ -11,7 +11,7 @@ const Event = require("../models/Event");
 //     type: "administrative",
 
 const addEvent = async (req, res) => {
-    const { title, description, button, link, anchor, where, when, img, type } = req.body;
+    const { title, description, button, link, anchor, where, when, from, to, img, type } = req.body;
     
     const event = new Event({
         title,
@@ -21,12 +21,35 @@ const addEvent = async (req, res) => {
         anchor,
         where,
         when,
+        from,
+        to,
         img,
         type
     });
 
     const result = await event.save();
     res.json(result);
+}
+
+const editEvent = async (req, res) => {
+    const { id } = req.params;
+    const { title, description, button, link, anchor, where, when, from, to, img, type } = req.body;
+    console.log(id, req.body);
+    
+    await Event.findByIdAndUpdate(id, {
+        title,
+        description,
+        button,
+        link,
+        anchor,
+        where,
+        when,
+        from,
+        to,
+        img,
+        type
+    })
+    res.json({ message: "Event updated" });
 }
 
 const getAllEvents = async (req, res) => {
@@ -94,6 +117,7 @@ const updateEvent = async (req, res) => {
 
 module.exports = {
     addEvent,
+    editEvent,
     getAllEvents,
     getEventById,
     getEventsByBuilding,

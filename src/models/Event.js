@@ -31,6 +31,12 @@ const eventSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
+    from: {
+        type: Date,
+    },
+    to: {
+        type: Date,
+    },
     img: {
         type: String,
     },
