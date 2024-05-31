@@ -58,7 +58,7 @@ const getAllEvents = async (req, res) => {
 }
 const getActiveEvents = async (req, res) => {
     const result = await Event.find();
-    res.json(result.filter(event => event.active));
+    res.json(result.filter(event => event.active && (event.from ? event.from >= new Date() : true) && (event.to ? event.to >= new Date() : true)));
 }
 
 const getEventById = async (req, res) => {
