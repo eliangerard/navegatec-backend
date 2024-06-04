@@ -12,13 +12,10 @@ app.use(express.json({
 }));
 app.use(cors());
 app.use("/api", api);
-app.use("/api/*", api);
 
 app.use('/admin', express.static("public/admin"));
-app.use('/admin/*', express.static("public/admin"));
 
 app.use('/', express.static("public/client"));
-app.use('/*', express.static("public/client"));
 
 app.use(express.static("public"));
 
