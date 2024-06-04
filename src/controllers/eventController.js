@@ -58,7 +58,7 @@ const getAllEvents = async (req, res) => {
 }
 const getActiveEvents = async (req, res) => {
     const result = await Event.find();
-    res.json(result.filter(event => event.active && (event.from ? event.from >= new Date() : true) && (event.to ? event.to >= new Date() : true)));
+    res.json(result.filter(event => event.active && (event.from ? event.from <= new Date() : true) && (event.to ? event.to >= new Date() : true)));
 }
 
 const getEventById = async (req, res) => {
@@ -77,7 +77,7 @@ const getEventsByBuilding = async (req, res) => {
     const { id } = req.params;
 
     const result = await Event.find({ active: true, "where.id": parseInt(id) });
-    res.json(result.filter(event => event.active && (event.from ? event.from >= new Date() : true) && (event.to ? event.to >= new Date() : true)));
+    res.json(result.filter(event => event.active && (event.from ? event.from <= new Date() : true) && (event.to ? event.to >= new Date() : true)));
 }
 
 const deleteEvent = async (req, res) => {
