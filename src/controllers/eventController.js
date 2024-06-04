@@ -93,7 +93,7 @@ const deleteEvent = async (req, res) => {
 
 const updateEvent = async (req, res) => {
     const { id } = req.params;
-    const { active, title, description, button, link, anchor, where, when, img, type } = req.body;
+    const { active, title, description, button, link, anchor, where, when, from, to, img, type } = req.body;
 
     try {
         const updateFields = {};
@@ -107,6 +107,8 @@ const updateEvent = async (req, res) => {
         if (when) updateFields.when = when;
         if (img) updateFields.img = img;
         if (type) updateFields.type = type;
+        if (from) updateFields.from = from;
+        if (to) updateFields.to = to;
 
         const result = await Event.findByIdAndUpdate(id, updateFields, { new: true });
         res.json(result);
